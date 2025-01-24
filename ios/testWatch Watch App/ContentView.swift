@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var manager: WatchCommunicationManager
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text(manager.text ?? "XXX")
         }
         .padding()
     }

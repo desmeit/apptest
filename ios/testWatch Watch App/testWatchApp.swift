@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct testWatch_Watch_AppApp: App {
+    
+    @StateObject var manager = WatchCommunicationManager()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(manager)
         }
     }
 }
