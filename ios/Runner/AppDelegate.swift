@@ -49,9 +49,13 @@ import WatchConnectivity
     
     private func initFlutterChannel() {
         DispatchQueue.main.async {
-            guard let controller = self.window?.rootViewController as? FlutterViewController else { return }
+           // guard let controller = self.window?.rootViewController as? FlutterViewController else { return }
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let flutterEngine = appDelegate.flutterEngine
+            let flutterViewController =
+            FlutterViewController(engine: flutterEngine, nibName: nil, bundle: nil)
             
-            let channel = FlutterMethodChannel(name: "com.example.apptest.watchkitapp", binaryMessenger: controller.binaryMessenger)
+            let channel = FlutterMethodChannel(name: "com.example.apptest.watchkitapp", binaryMessenger: flutterViewController.binaryMessenger)
             channel.setMethodCallHandler { [weak self] call, result in
                 let method = call.method
                 let args = call.arguments
@@ -81,8 +85,10 @@ extension AppDelegate: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) { }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        guard let methodName = message["method"] as? String else { return }
-        let data: [String: Any]? = message["data"] as? [String: Any]
-        channel?.invokeMethod(methodName, arguments: data)
+        DispatchQueue.main.async {
+            guard let methodName = message["method"] as? String else { return }
+            let data: [String: Any]? = message["data"] as? [String: Any]
+            self.channel?.invokeMethod(methodName, arguments: data)
+        }
     }
 }

@@ -56,42 +56,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _channel = const MethodChannel("com.example.apptest.watchkitapp");
-
   @override
   void initState() {
     super.initState();
-
-    _setMethod();
   }
-
-  _setMethod() {
-    _channel.setMethodCallHandler((call) async {
-      final methodName = call.method;
-      final args = call.arguments;
-
-      if (methodName != "updateTextFromWatch") {
-        return;
-      }
-
-      final fromWatch = args["fromWatch"];
-
-      print("fromWatch invoke: " + fromWatch.toString());
-
-      _runFunctionsFromWatch(fromWatch);
-    });
-  }
-
-  void _sendNewTextToAppleWatch(String text) {
-    _channel.invokeMethod("forwardToAppleWatch", {
-      "method": "updateTextFromFlutter",
-      "data": {
-        "text": text,
-      },
-    });
-  }
-
-  _runFunctionsFromWatch(fromWatch) async {}
 
   @override
   Widget build(BuildContext context) {
@@ -115,9 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
           child: TextButton(
-        child: Text("send text to watch"),
+        child: Text("testbutton"),
         onPressed: () {
-          _sendNewTextToAppleWatch("this is text for the watch");
+          print("testbutton runs");
         },
       )),
     );

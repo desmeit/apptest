@@ -42,3 +42,13 @@ post_install do |installer|
   end
 end
 
+target 'testWatch Watch App' do
+
+use_frameworks! :linkage => :static
+
+platform :watchos, '10.0'
+pod 'FirebaseCore'
+pod 'FirebaseAuth'
+pod 'FirebaseFunctions'
+
+end
